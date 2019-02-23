@@ -2,7 +2,7 @@ import io.javalin.Javalin;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.zip.DataFormatException;
+
 
 public class CalculateContractEndDate {
     public CalculateContractEndDate() {
@@ -95,7 +95,7 @@ public class CalculateContractEndDate {
             }
         }
     }
-    else throw new DataFormatException("Not valid data fields for calculating Contract End Date");
+    else throw new Exception("Not valid data fields for calculating Contract End Date");
     return null;
     }
 
@@ -110,9 +110,9 @@ public class CalculateContractEndDate {
                 resultDate = calculateEndDate(vertrag.veertragsgegenstand.istTermin.vertragsBeginnTerminIst, currentDate, k.vertragsLaufZeit.anzahl,k.vertragsLaufZeit.einheit, k.verlaengerungsFrist.anzahl, k.verlaengerungsFrist.einheit).getTime();
                 break;
             }
-            else throw new Exception("In Vertag there is no konditions with 02");
         }
-        return simpleDateFormat.format(resultDate);
+        if (resultDate != null)return simpleDateFormat.format(resultDate);
+        else throw new Exception("In Vertag there is no konditions with 02");
     }
 }
 

@@ -14,13 +14,13 @@ public class TestForCalculationContractEndDate {
 
     public List<Kondition> getListKonditionFirstValidArtUsed() {
         List<Kondition> konditions = new ArrayList<Kondition>();
-        Kondition kondition1 = new Kondition("ZK02",
-                new VertragsLaufZeit(15, "TAG"),
-                new VerlaengerungsFrist(9, "MON")
-        );
-        Kondition kondition2 = new Kondition("ZC03",
+        Kondition kondition1 = new Kondition("ZC03",
                 new VertragsLaufZeit(9, "MON"),
                 new VerlaengerungsFrist(1, "JHR")
+        );
+        Kondition kondition2 = new Kondition("ZK02",
+                new VertragsLaufZeit(15, "TAG"),
+                new VerlaengerungsFrist(9, "MON")
         );
 
         Kondition kondition3 = new Kondition("ZC02",
@@ -56,6 +56,25 @@ public class TestForCalculationContractEndDate {
         return konditions;
     }
 
+    public List<Kondition> getListKonditionNoValidInEinheit() {
+        List<Kondition> konditions = new ArrayList<Kondition>();
+        Kondition kondition1 = new Kondition("ZC02",
+                new VertragsLaufZeit(15, "HGF"),
+                new VerlaengerungsFrist(9, "HFR")
+        );
+        konditions.add(kondition1);
+        return konditions;
+    }
+
+    public List<Kondition> getListKonditionNoValidInAnzahl() {
+        List<Kondition> konditions = new ArrayList<Kondition>();
+        Kondition kondition1 = new Kondition("ZC02",
+                new VertragsLaufZeit(-16, "MON"),
+                new VerlaengerungsFrist(-5, "JHR")
+        );
+        konditions.add(kondition1);
+        return konditions;
+    }
 
     public Vertrag getObject(List<Kondition> konditions, GregorianCalendar startContractDate) {
         return new Vertrag(
@@ -87,10 +106,26 @@ public class TestForCalculationContractEndDate {
     }
 
     @Test(expectedExceptions = Exception.class)
-    public void checkAddMoreNextPeriodTime1() throws Exception {
+    public void checkKondition02InTheBeginning() throws Exception {
         GregorianCalendar currentDate =new GregorianCalendar();
         GregorianCalendar startConstractDate = new GregorianCalendar(2018, Calendar.FEBRUARY,20);
         calculateContractEndDate.mappingDataAndOutputDate(getObject(getListKonditionNoValid(),startConstractDate),currentDate);
     }
+
+    @Test(expectedExceptions = Exception.class)
+    public void checkKonditionInvalidEnhieit() throws Exception {
+        GregorianCalendar currentDate =new GregorianCalendar();
+        GregorianCalendar startConstractDate = new GregorianCalendar(2018, Calendar.FEBRUARY,20);
+        calculateContractEndDate.mappingDataAndOutputDate(getObject(getListKonditionNoValidInEinheit(),startConstractDate),currentDate);
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void checkKonditionInvalidNegativeAnzahl() throws Exception {
+        GregorianCalendar currentDate =new GregorianCalendar();
+        GregorianCalendar startConstractDate = new GregorianCalendar(2018, Calendar.FEBRUARY,20);
+        calculateContractEndDate.mappingDataAndOutputDate(getObject(getListKonditionNoValidInAnzahl(),startConstractDate),currentDate);
+    }
+
+
 
 }
