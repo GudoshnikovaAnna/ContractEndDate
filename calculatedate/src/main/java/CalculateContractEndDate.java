@@ -106,7 +106,7 @@ public class CalculateContractEndDate {
         Date resultDate = null;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
         for (Kondition k : vertrag.veertragsgegenstand.konditionList) {
-            if (k.art.contains("02")) {
+            if (k.art.startsWith("Z") && k.art.endsWith("02")) {
                 resultDate = calculateEndDate(vertrag.veertragsgegenstand.istTermin.vertragsBeginnTerminIst, currentDate, k.vertragsLaufZeit.anzahl,k.vertragsLaufZeit.einheit, k.verlaengerungsFrist.anzahl, k.verlaengerungsFrist.einheit).getTime();
                 break;
             }
