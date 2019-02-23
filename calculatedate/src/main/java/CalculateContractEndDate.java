@@ -19,7 +19,7 @@ public class CalculateContractEndDate {
 
     public GregorianCalendar calculateEndDate(GregorianCalendar startDate, GregorianCalendar currentDate, int standartPeriodTime, String typeOfStandartPeriodTime, int nextPeriodTime, String typerOfNextPeriodTime)  throws Exception {
 
-    if (typeOfStandartPeriodTime.equals("JHR") && standartPeriodTime >= 0 && nextPeriodTime >= 0) {
+    if (typeOfStandartPeriodTime.equals("JHR") && standartPeriodTime >= 0 && nextPeriodTime > 0) {
         startDate.add(Calendar.YEAR, standartPeriodTime);
         if (currentDate.before(startDate)) {
             return startDate;
@@ -44,7 +44,7 @@ public class CalculateContractEndDate {
                 return startDate;
             }
         }
-    } else if (typeOfStandartPeriodTime.equals("MON") && standartPeriodTime >= 0 && nextPeriodTime >= 0) {
+    } else if (typeOfStandartPeriodTime.equals("MON") && standartPeriodTime >= 0 && nextPeriodTime > 0) {
         startDate.add(Calendar.MONTH, standartPeriodTime);
         if (currentDate.before(startDate)) {
             return startDate;
@@ -69,7 +69,7 @@ public class CalculateContractEndDate {
                 return startDate;
             }
         }
-    } else if (typeOfStandartPeriodTime.equals("TAG") && standartPeriodTime >= 0 && nextPeriodTime >= 0) {
+    } else if (typeOfStandartPeriodTime.equals("TAG") && standartPeriodTime >= 0 && nextPeriodTime > 0) {
         startDate.add(Calendar.DAY_OF_MONTH, standartPeriodTime);
         if (currentDate.before(startDate)) {
             return startDate;

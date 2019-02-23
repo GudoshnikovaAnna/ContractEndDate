@@ -76,6 +76,28 @@ public class TestForCalculationContractEndDate {
         return konditions;
     }
 
+    public List<Kondition> getListKonditionZroStandartAnzahl() {
+        List<Kondition> konditions = new ArrayList<Kondition>();
+        Kondition kondition1 = new Kondition("ZC02",
+                new VertragsLaufZeit(0, "MON"),
+                new VerlaengerungsFrist(5, "JHR")
+        );
+        konditions.add(kondition1);
+        return konditions;
+    }
+
+
+    public List<Kondition> getListKonditionZeroNextAnzahl() {
+        List<Kondition> konditions = new ArrayList<Kondition>();
+        Kondition kondition1 = new Kondition("ZC02",
+                new VertragsLaufZeit(2, "MON"),
+                new VerlaengerungsFrist(0, "JHR")
+        );
+        konditions.add(kondition1);
+        return konditions;
+    }
+
+
     public Vertrag getObject(List<Kondition> konditions, GregorianCalendar startContractDate) {
         return new Vertrag(
                 new Veertragsgegenstand(
@@ -103,6 +125,20 @@ public class TestForCalculationContractEndDate {
         GregorianCalendar currentDate =new GregorianCalendar();
         GregorianCalendar startConstractDate = new GregorianCalendar(2018, Calendar.FEBRUARY,20);
         Assert.assertEquals(calculateContractEndDate.mappingDataAndOutputDate(getObject(getListKonditionFirstValidArtUsed(), startConstractDate),currentDate), "07.09.2019", "Basic test has fallen");
+    }
+
+    @Test
+    public void checkZeroStandartTime() throws Exception {
+        GregorianCalendar currentDate =new GregorianCalendar();
+        GregorianCalendar startConstractDate = new GregorianCalendar(2018, Calendar.FEBRUARY,20);
+        Assert.assertEquals(calculateContractEndDate.mappingDataAndOutputDate(getObject(getListKonditionZroStandartAnzahl(), startConstractDate),currentDate), "20.02.2023", "Basic test has fallen");
+    }
+
+    @Test(expectedExceptions = Exception.class)
+    public void checkZeroNextTimePeriod() throws Exception {
+        GregorianCalendar currentDate =new GregorianCalendar();
+        GregorianCalendar startConstractDate = new GregorianCalendar(2018, Calendar.FEBRUARY,20);
+        calculateContractEndDate.mappingDataAndOutputDate(getObject(getListKonditionZeroNextAnzahl(), startConstractDate),currentDate);
     }
 
     @Test(expectedExceptions = Exception.class)
